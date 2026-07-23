@@ -39,7 +39,7 @@ interface = gr.Interface(
     fn=predict,
     inputs=gr.Image(type="pil", label="Upload Cloudy Satellite Image"),
     outputs=gr.Image(type="pil", label="Predicted Cloud-Free Image"),
-    title="🌍 CloudClear AI",
+    title="CloudClear AI",
     description="""
 CloudClear AI uses a U-Net deep learning model to reconstruct cloud-free satellite images.
 
