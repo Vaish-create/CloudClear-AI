@@ -3,6 +3,7 @@ import torch
 from PIL import Image
 import numpy as np
 from torchvision import transforms
+import os
 
 from model import UNet
 
@@ -49,4 +50,10 @@ Upload a cloudy satellite image and click Submit.
 )
 
 if __name__ == "__main__":
-    interface.launch()
+    port = int(os.environ.get("PORT", 7860))
+
+    interface.launch(
+        server_name="0.0.0.0",
+        server_port=port,
+        ssr_mode=False
+    )
