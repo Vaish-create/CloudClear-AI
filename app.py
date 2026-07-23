@@ -46,7 +46,7 @@ CloudClear AI uses a U-Net deep learning model to reconstruct cloud-free satelli
 
 Upload a cloudy satellite image and click Submit.
 """,
-    allow_flagging="never"
+    flagging_mode="never"
 )
 
 if __name__ == "__main__":
