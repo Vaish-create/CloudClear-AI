@@ -19,8 +19,21 @@ transform = transforms.Compose([
 ])
 
 def predict(image):
-    # Placeholder
-    return image
+
+   
+    input_tensor = transform(image).unsqueeze(0).to(device)
+    with torch.no_grad():
+        output = model(input_tensor)
+    output = output.squeeze(0).cpu().permute(1,2,0).numpy()
+
+    output = np.clip(output,0,1)
+
+    output = (output * 255).astype(np.uint8)
+
+    output = Image.fromarray(output)
+    output = output.resize(original_size)
+
+    return output
 
 interface = gr.Interface(
     fn=predict,
