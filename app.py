@@ -6,8 +6,7 @@ import os
 
 from model import UNet
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+device = torch.device("cpu")
 model = UNet()
 model.load_state_dict(torch.load("best_model.pth", map_location=device))
 model.to(device)
