@@ -37,10 +37,16 @@ def predict(image):
 
 interface = gr.Interface(
     fn=predict,
-    inputs=gr.Image(type="pil"),
-    outputs=gr.Image(type="pil"),
-    title="CloudClear AI",
-    description="Upload a cloudy satellite image and generate a cloud-free prediction."
+    inputs=gr.Image(type="pil", label="Upload Cloudy Satellite Image"),
+    outputs=gr.Image(type="pil", label="Predicted Cloud-Free Image"),
+    title="🌍 CloudClear AI",
+    description="""
+CloudClear AI uses a U-Net deep learning model to reconstruct cloud-free satellite images.
+
+Upload a cloudy satellite image and click Submit.
+""",
+    allow_flagging="never"
 )
 
-interface.launch()
+if __name__ == "__main__":
+    interface.launch()
