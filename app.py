@@ -2,7 +2,6 @@ import gradio as gr
 import torch
 from PIL import Image
 import numpy as np
-from torchvision import transforms
 import os
 
 from model import UNet
@@ -14,24 +13,23 @@ model.load_state_dict(torch.load("best_model.pth", map_location=device))
 model.to(device)
 model.eval()
 
-transform = transforms.Compose([
-    transforms.Resize((256, 256)),
-    transforms.ToTensor()
-])
-
 def predict(image):
+    original_size = image.size
+    image_resized = image.convert("RGB").resize((256, 256))
+    image_array = np.array(image_resized, dtype=np.float32) / 255.0
 
-   
-    input_tensor = transform(image).unsqueeze(0).to(device)
+    input_tensor = torch.from_numpy(image_array)
+    input_tensor = input_tensor.permute(2, 0, 1).unsqueeze(0).to(device)
+
     with torch.no_grad():
         output = model(input_tensor)
-    output = output.squeeze(0).cpu().permute(1,2,0).numpy()
+    output = output.squeeze(0).cpu().permute(1, 2, 0).numpy()
 
-    output = np.clip(output,0,1)
-
+    output = np.clip(output, 0, 1)
     output = (output * 255).astype(np.uint8)
 
     output = Image.fromarray(output)
+
     output = output.resize(original_size)
 
     return output
